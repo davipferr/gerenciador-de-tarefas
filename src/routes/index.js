@@ -16,5 +16,10 @@ export const router = new VueRouter({
         name: 'TaskForm',
         component: () => import('@/components/TaskForm.vue'),
       },
+      {
+        path: '/list',
+        name: 'TaskList',
+        component: () => import('@/components/TaskList.vue'),
+      },
     ],
   });

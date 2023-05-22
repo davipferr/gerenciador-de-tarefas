@@ -6,7 +6,7 @@
     <div class="navbar-links">
       <a href="/" class="nav-link">Home</a>
       <a href="/create" class="nav-link">Criar</a>
-      <a href="/Listar" class="nav-link">Listar</a>
+      <a href="/list" class="nav-link">Listar</a>
     </div>
     <div class="navbar-account">
       <!-- Account-related links or user profile info -->

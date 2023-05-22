@@ -6,6 +6,10 @@ import 'vuetify/dist/vuetify.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 import '../main.css';
+import '@mdi/font/css/materialdesignicons.css';
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
 Vue.config.productionTip = false
 
