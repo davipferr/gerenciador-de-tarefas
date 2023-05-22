@@ -44,6 +44,7 @@
         <v-btn 
           @click="createTask" 
           style="background-color: #45BE14; color: black;"
+          :disabled="loading"
         >
           Criar Tarefa 
           <v-icon
