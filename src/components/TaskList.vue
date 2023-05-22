@@ -36,7 +36,7 @@
         </v-chip>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <div v-if="!loading">
+        <div v-if="!loading" class="d-flex">
           <v-icon
             class="mr-3"
             @click="changeTaskStatus(item.id, item.completed)"
