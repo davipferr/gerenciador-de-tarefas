@@ -1,9 +1,16 @@
 body {
-    background-color: #222626;
+  background-color: #222626;
 }
 
 * {
-    color: white;
+  color: white;
 }
-  
-  
+
+body .v-data-table * {
+  color: black !important;
+}
+
+/* Add custom styles for the loading spinner */
+body .v-progress-circular * {
+  color: black !important;
+}
