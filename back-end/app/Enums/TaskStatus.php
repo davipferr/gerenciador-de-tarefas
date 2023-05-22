@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Enums\Task;
+namespace App\Enums;
 
-class TaskStatus {
+class TaskStatus
+{
     const PENDING = 0;
-    const CANCELED = 1;
-    const FINISHED = 2;
+    const CONCLUDED = 1;
 }

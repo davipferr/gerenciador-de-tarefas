@@ -15,9 +15,10 @@ class Tasks extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 50);
-            $table->string('description', 50);
-            $table->unsignedTinyInteger('concluded');
+            $table->string('title', 60);
+            $table->string('description', 1000);
+            $table->unsignedTinyInteger('completed');
+            $table->timestamps();
         });
     }
 

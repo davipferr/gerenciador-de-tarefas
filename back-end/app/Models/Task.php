@@ -9,9 +9,13 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $table = 'tasks';
+
     protected $fillable = [
         'title',
         'description',
-        'completed'
+        'completed',
+        'update_at' => 'timestamp',
+        'created_at' => 'timestamp',
     ];
 }

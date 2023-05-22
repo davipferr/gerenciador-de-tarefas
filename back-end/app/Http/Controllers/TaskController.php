@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\TaskController;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Task;
-use App\Enums\Task\TaskStatus;
+use App\Enums\TaskStatus;
+use Illuminate\Http\Response;
 
 class TaskController extends Controller
 {
@@ -38,13 +39,14 @@ class TaskController extends Controller
 
     public function list()
     {
-        $tasks = Task::all(['title', 'description', 'completed']);
+        $tasks = Task::all(['id','title', 'description', 'completed']);
 
-        return response()->json($tasks);
+        return response()->json($tasks, Response::HTTP_OK);
     }
 
     public function update(Request $request, $id)
     {
+        // get the data of the table with the same id send by the user
         $task = Task::find($id);
 
         if (!$task) {
@@ -54,9 +56,7 @@ class TaskController extends Controller
         }
 
         $validatedData = Validator::make($request->all(), [
-            'title' => 'sometimes|required|string',
-            'description' => 'sometimes|required|string',
-            'completed' => 'sometimes|required|boolean',
+            'newStatus' => 'required|in:' . TaskStatus::CONCLUDED . ',' . TaskStatus::PENDING,
         ]);
 
         if ($validatedData->fails()) {
@@ -65,7 +65,10 @@ class TaskController extends Controller
             ], 400);
         }
 
-        $task->update($validatedData);
+        // Now i have to update the column completed with the value of newStatus
+        $task->update([
+            'completed' => $request->newStatus
+        ]);
 
         return response()->json([
             'message' => 'Task updated'

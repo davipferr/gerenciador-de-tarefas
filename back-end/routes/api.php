@@ -17,7 +17,7 @@ use App\Http\Controllers\TaskController;
 
 Route::prefix('task')->group(function () {
     Route::post('/create', [TaskController::class, 'create']);
-    Route::get('/list/{id}', [TaskController::class, 'list']);
+    Route::get('/list', [TaskController::class, 'list']);
     Route::put('/update/{id}', [TaskController::class, 'update']);
     Route::delete('/delete/{id}', [TaskController::class, 'delete']);
 });
