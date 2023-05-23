@@ -21,5 +21,10 @@ export const router = new VueRouter({
         name: 'TaskList',
         component: () => import('@/components/TaskList.vue'),
       },
+      {
+        path: '/details/:id',
+        name: 'TaskDetails',
+        component: () => import('@/components/TaskDetails.vue'),
+      },
     ],
   });
