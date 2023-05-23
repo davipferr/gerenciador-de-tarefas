@@ -17,6 +17,7 @@
       :items="tasks"
       :search="search"
       :loading="loading"
+      no-data-text="Não há tarefas para listar..."
     >
       <template v-slot:loading>
         <div class="text-center">
