@@ -1,7 +1,7 @@
 <template>
-  <v-card class="container" max-width="1200">
+  <v-card class="container" max-width="1200" dark>
     <v-card-title>
-      Lista de tarefas
+      Lista de Tarefas
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -42,7 +42,7 @@
             @click="changeTaskStatus(item.id, item.completed)"
             :title="getStatusMessage(item.completed)"
           >
-            mdi-pencil
+            mdi-swap-horizontal
           </v-icon>
           <v-icon
             @click="deleteTask(item.id)"
@@ -62,6 +62,7 @@
       </template>
     </v-data-table>
     <ButtonRedirectToCreate
+      class="justify-content-start d-flex"
       :loading="loading"
     />
   </v-card>
@@ -143,9 +144,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-* {
-  color: black
-}
-</style>
