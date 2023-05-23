@@ -13,7 +13,6 @@
           <label for="title" class="col-form-label">Título:</label>
           <input 
             type="text"
-            id="title"
             v-model="fields.title"
             class="form-control"
             required
@@ -30,11 +29,10 @@
         <div class="form-group">
           <label for="description" class="col-form-label">Descrição:</label>
           <textarea 
-            id="description"
-            v-model="fields.description"
             class="form-control"
-            required
+            v-model="fields.description"
             :maxlength="1000"
+            style="height: 270px; max-height: 270px; resize: none;"
           >
           </textarea>
           <div class="character-count">
@@ -57,14 +55,14 @@
           >
             mdi-plus
           </v-icon>
-            <v-progress-circular 
-              class="ml-3 justify-content-center"
-              v-if="loading"
-              :size="20"
-              :width="2"
-              indeterminate
-            >
-            </v-progress-circular>
+          <v-progress-circular 
+            class="loader-spacing"
+            v-if="loading"
+            :size="20"
+            :width="2"
+            indeterminate
+          >
+          </v-progress-circular>
         </v-btn>
       </div>
     </div>
@@ -92,15 +90,13 @@ export default {
     createTask() {
       this.loading = true;
       axios.post('/api/task/create', this.fields)
-        .then(response => {
-          // Handle success
-          console.log('Task created successfully!', response.data);
+        .then(() => {
+          console.log('Tarefa criada com sucesso!');
           this.clearFields();
           this.loading = false;
         })
         .catch(error => {
-          // Handle error
-          console.error('Failed to create task:', error);
+          console.error('Houve um erro ao criar a Tarefa:', error);
           this.loading = false;
         });
     },
@@ -126,6 +122,10 @@ export default {
 }
 
 .icon-spacing {
+  margin-left: 8px;
+}
+
+.loader-spacing {
   margin-left: 8px;
 }
 </style>
