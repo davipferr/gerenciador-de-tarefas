@@ -1,7 +1,6 @@
 # gerenciador-de-tarefas
 
-## Começando
-
+Começando
 ## Clone o repositório para sua máquina local
 ```
 git clone https://github.com/your-username/your-project.git
