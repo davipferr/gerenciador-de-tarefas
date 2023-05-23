@@ -29,6 +29,16 @@
           </v-progress-circular>
         </div>
       </template>
+      <template v-slot:[`item.taskDetails`]="{ item }">
+        <div class="text-center">
+          <v-icon
+            @click="taskDetails(item.id)"
+            title="Ver detalhes da Tarefa"
+          >
+            mdi-text-box
+          </v-icon>
+        </div>
+      </template>
       <template v-slot:[`item.completed`]="{ item }">
         <v-chip
           :color="getColor(item.completed)"
@@ -39,11 +49,16 @@
       <template v-slot:[`item.actions`]="{ item }">
         <div v-if="!loading" class="d-flex">
           <v-icon
-            class="mr-3"
-            @click="changeTaskStatus(item.id, item.completed)"
+            class=""
+            @click="updateTask(item.id, item.completed)"
             :title="getStatusMessage(item.completed)"
           >
             mdi-swap-horizontal
+          </v-icon>
+          <v-icon
+            @click="openDialog(item)"
+          >
+            mdi-pencil
           </v-icon>
           <v-icon
             @click="deleteTask(item.id)"
@@ -62,6 +77,68 @@
         </div>
       </template>
     </v-data-table>
+    <div>
+      <v-dialog v-model="dialogVisible" :modal="dialogVisible" max-width="800px" persistent>
+        <v-card dark>
+          <v-card-title class="my-3">
+            Editar Tarefa
+          </v-card-title>
+          <v-card-text>
+              <v-text-field
+                label="Título"
+                v-model="editValueTitle"
+                :maxlength="60"
+                :disabled="loading"
+              >
+              </v-text-field>
+              <div>
+                {{ 60 - editValueTitle.length }} caracteres restantes
+              </div>
+              <v-textarea 
+                label="Descrição"
+                v-model="editValueDescription"
+                :maxlength="1000"
+                no-resize
+                :disabled="loading"
+              >
+              </v-textarea>
+              <div>
+                {{ 1000 - editValueDescription.length }} caracteres restantes
+              </div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              @click="updateTask(taskId)"
+              style="backgroundColor: #2938D5; color: white;"
+              :disabled="loading"
+            >
+              Salvar
+              <v-icon
+                v-if="!loading"
+                class="icon-spacing"
+              >
+                mdi-plus
+              </v-icon>
+              <v-progress-circular 
+                class="loader-spacing"
+                v-if="loading"
+                :size="20"
+                :width="2"
+                indeterminate
+              >
+              </v-progress-circular>
+            </v-btn>
+            <v-btn
+              @click="cancelDialog"
+              style="backgroundColor: #BA0606; color: white;"
+              :disabled="loading"
+            >
+              Cancelar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <ButtonRedirectToCreate
       class="justify-content-start d-flex"
       :loading="loading"
@@ -83,8 +160,13 @@ export default {
       search: '',
       tasks: [],
       newStatus: '',
-      loading: false, // Add loading state
+      editValueTitle: '',
+      editValueDescription: '',
+      taskId: '',
+      dialogVisible: false,
+      loading: false,
       headers: [
+        { text: '', value: 'taskDetails' },
         { text: 'Título', value: 'title' },
         { text: 'Descrição', value: 'description' },
         { text: 'Concluído', value: 'completed' },
@@ -108,13 +190,17 @@ export default {
           this.loading = false;
         });
     },
-    changeTaskStatus(id, completed) {
+    updateTask(id, completed) {
       this.loading = true;
-      const newStatus = completed === TASK_STATUS.PENDING ? TASK_STATUS.CONCLUDED : TASK_STATUS.PENDING;
+      const newData = {
+        newStatus: completed !== undefined ? 
+          (completed === TASK_STATUS.PENDING ? TASK_STATUS.CONCLUDED : TASK_STATUS.PENDING) : '',
+        newTitle: this.editValueTitle,
+        newDescription: this.editValueDescription,
+      }
 
-      axios.put(`/api/task/update/${id}`, {newStatus})
-        .then(response => {
-          console.log('response', response);
+      axios.put(`/api/task/update/${id}`, newData)
+        .then(() => {
           this.fetchTasks();
         })
         .catch(error => {
@@ -125,8 +211,7 @@ export default {
     deleteTask(id) {
       this.loading = true;
       axios.delete(`api/task/delete/${id}`)
-        .then(response => {
-          console.log('response', response);
+        .then(() => {
           this.fetchTasks();
         })
         .catch(error => {
@@ -142,6 +227,24 @@ export default {
     redirectToCreate() {
       this.$router.push('/create');
     },
+    taskDetails(taskId) {
+      this.$router.push(`/details/${taskId}`);
+    },
+    openDialog(items) {
+      this.editValueTitle = items.title;
+      this.editValueDescription = items.description;
+      this.taskId = items.id;
+      this.dialogVisible = true;
+    },
+    cancelDialog() {
+      this.dialogVisible = false;
+    }
   },
 };
 </script>
+
+<style scoped>
+.loader-spacing {
+  margin-left: 8px;
+}
+</style>
