@@ -46,14 +46,14 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <v-btn 
-          @click="createTask" 
           style="background-color: #45BE14; color: black;"
+          @click="createTask" 
           :disabled="loading"
         >
-          Criar Tarefa 
+          Criar Tarefa
           <v-icon
             v-if="!loading"
-            class="ml-3 justify-content-center"
+            class="icon-spacing"
           >
             mdi-plus
           </v-icon>
@@ -123,5 +123,9 @@ export default {
 .col-form-label {
   align-self: flex-start;
   margin-bottom: 0.5rem;
+}
+
+.icon-spacing {
+  margin-left: 8px;
 }
 </style>
