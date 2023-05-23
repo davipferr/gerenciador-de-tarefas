@@ -6,11 +6,6 @@ body {
   color: white;
 }
 
-body .v-data-table * {
-  color: black !important;
-}
-
-/* Add custom styles for the loading spinner */
 body .v-progress-circular * {
-  color: black !important;
+  color: white !important;
 }
