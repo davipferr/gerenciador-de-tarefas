@@ -49,9 +49,9 @@ composer install
 
 ## Configuração
 
-### Crie uma cópia do arquivo .env.example e renomeie-o para .env
+### Crie uma cópia do arquivo .env.example e renomeie-o para .env na pasta back-end
 ```
-cp .env.example .env
+copy .env.example .env
 ```
 
 ### Abra o arquivo .env e modifique as seguintes configurações para corresponder ao seu ambiente:
