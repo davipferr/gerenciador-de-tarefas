@@ -1,8 +1,12 @@
 <template>
-  <div class="container" max-width="1200">
-    <ButtonRedirectToList
-      :loading="loading"
-    />
+  <v-card class="container" max-width="1200" dark>
+    Crie sua Tarefa
+    <v-spacer></v-spacer>
+    <v-card-title class="justify-content-end d-flex">
+      <ButtonRedirectToList
+        :loading="loading"
+      />
+    </v-card-title>
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="form-group">
@@ -64,7 +68,7 @@
         </v-btn>
       </div>
     </div>
-  </div>
+  </v-card>
 </template>
 
 <script>
