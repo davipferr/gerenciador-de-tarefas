@@ -33,7 +33,7 @@ class TaskController extends Controller
         Task::create($taskData);
 
         return response()->json([
-            'message' => 'Task created successfully'
+            'message' => 'Tarefa criada com sucesso'
         ]);
     }
 
@@ -41,22 +41,38 @@ class TaskController extends Controller
     {
         $tasks = Task::all(['id','title', 'description', 'completed']);
 
+        if (!$tasks) {
+            return response()->json(['message' => 'Nehuma Tarefa foi encontrada'], Response::HTTP_NOT_FOUND);
+        }
+
         return response()->json($tasks, Response::HTTP_OK);
+    }
+
+    public function taskDetails($taskId)
+    {
+        $taskData = Task::find($taskId, ['id', 'title', 'description', 'completed']);
+
+        if (!$taskData) {
+            return response()->json(['message' => 'Nehuma Tarefa foi encontrada'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($taskData, Response::HTTP_OK);
     }
 
     public function update(Request $request, $id)
     {
-        // get the data of the table with the same id send by the user
         $task = Task::find($id);
 
         if (!$task) {
             return response()->json([
-                'message' => 'Task not found'
+                'message' => 'Nehuma Tarefa foi encontrada'
             ], 404);
         }
 
         $validatedData = Validator::make($request->all(), [
-            'newStatus' => 'required|in:' . TaskStatus::CONCLUDED . ',' . TaskStatus::PENDING,
+            'newTitle' => 'nullable|string',
+            'newDescription' => 'nullable|string',
+            'newStatus' => 'nullable|in:' . TaskStatus::CONCLUDED . ',' . TaskStatus::PENDING,
         ]);
 
         if ($validatedData->fails()) {
@@ -65,13 +81,18 @@ class TaskController extends Controller
             ], 400);
         }
 
-        // Now i have to update the column completed with the value of newStatus
-        $task->update([
-            'completed' => $request->newStatus
-        ]);
+        $updateData = array_filter([
+            'title' => $request->newTitle,
+            'description' => $request->newDescription,
+            'completed' => $request->newStatus,
+        ], function ($value) {
+            return $value !== null;
+        });
+
+        $task->update($updateData);
 
         return response()->json([
-            'message' => 'Task updated'
+            'message' => 'Tarefa atualizada com sucesso'
         ]);
     }
 
@@ -80,10 +101,10 @@ class TaskController extends Controller
         $task = Task::find($id);
 
         if (!$task) {
-            return response()->json(['message' => 'Task not found'], 404);
+            return response()->json(['message' => 'Nehuma Tarefa foi encontrada'], 404);
         }
 
         $task->delete();
-        return response()->json(['message' => 'Task deleted']);
+        return response()->json(['message' => 'Tarefa deletada com sucesso']);
     }
 }
