@@ -32,11 +32,11 @@ cp .env.example .env
 ### Abra o arquivo .env em um editor de texto e modifique as seguintes configurações para corresponder ao seu ambiente:
 ```
 DB_CONNECTION=mysql
-DB_HOST=your-database-host
-DB_PORT=your-database-port
-DB_DATABASE=your-database-name
-DB_USERNAME=your-database-username
-DB_PASSWORD=your-database-password
+DB_HOST=seu-host-do-banco-de-dados
+DB_PORT=sua-porta-do-banco-de-dados
+DB_DATABASE=seu-nome-do-banco-de-dados
+DB_USERNAME=seu-nome-de-usuário-do-banco-de-dados
+DB_PASSWORD=sua-senha-do-banco-de-dados
 ```
 
 ## Configuração do banco de dados
